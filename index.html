@@ -31,10 +31,9 @@
     <main id="main-content">
       <section id="top" class="hero">
         <div class="container hero-inner">
-          <p class="eyebrow">ICLR 2027</p>
           <h1>AVC-Reward</h1>
           <p class="hero-subtitle">Event-Centric Audio-Video Consistency Evaluation</p>
-          <p class="hero-copy">A reward model for checking whether sounds and visual events belong together, stay in sync, and make sense as one scene.</p>
+          <p class="hero-copy">AVC-Reward is a trainable, event-centric audio-video reward model. It independently analyzes audio and visual events, cross-validates their relations, and aggregates judgments into a coarse-to-fine, three-level consistency score.</p>
         </div>
       </section>
 
@@ -60,9 +59,7 @@
       <section id="cases" class="section cases-section">
         <div class="container">
           <div class="section-heading cases-heading">
-            <p class="eyebrow">Case studies</p>
-            <h2>Listen and compare.</h2>
-            <p>Each row is one case. The videos use the updated files in the case folders; case identifiers are omitted from the page.</p>
+            <h2>Case studies</h2>
           </div>
 
           <section class="case-group" aria-labelledby="reward-cases-title">
@@ -70,7 +67,7 @@
               <div><p class="eyebrow">01 · Reward-model examples</p><h3 id="reward-cases-title">Scores and conclusions</h3></div>
               <span class="case-count">6 cases</span>
             </div>
-            <p class="table-intro">Each case includes its audio-video clip. The three score columns show AVC-Reward’s macro-semantic, temporal, and fine-grained outputs; the final column gives the overall score, human average, and a short conclusion excerpt.</p>
+            <p class="table-intro">The three score columns and conclusion are AVC-Reward outputs. The overall score combines its three dimensions; the human average is shown for reference.</p>
             <div class="table-wrap">
               <table class="case-table reward-table">
                 <thead>
@@ -89,15 +86,15 @@
 
           <section class="case-group" aria-labelledby="generation-cases-title">
             <div class="case-group-heading">
-              <div><p class="eyebrow">02 · Generated examples</p><h3 id="generation-cases-title">Three model outputs</h3></div>
+              <div><p class="eyebrow">02 · Generated examples</p><h3 id="generation-cases-title">Generation model case comparison</h3></div>
               <span class="case-count">7 cases</span>
             </div>
-            <p class="table-intro">Each abbreviated prompt summarizes the scene’s main event. LTX-2, OmniNFT, and Ours clips are displayed directly in separate columns.</p>
+            <p class="table-intro">Each row uses the same prompt for three audio-video generations: LTX-2, OmniNFT, and Ours (AVC-Reward).</p>
             <div class="table-wrap">
               <table class="case-table generation-table">
                 <thead>
                   <tr>
-                    <th scope="col">Prompt (abbreviated)</th>
+                    <th scope="col">Prompt</th>
                     <th scope="col">LTX-2</th>
                     <th scope="col">OmniNFT</th>
                     <th scope="col">Ours</th>
@@ -110,15 +107,15 @@
 
           <section class="case-group" aria-labelledby="additional-cases-title">
             <div class="case-group-heading">
-              <div><p class="eyebrow">03 · Additional generated cases</p><h3 id="additional-cases-title">More generated examples</h3></div>
-              <span class="case-count">26 cases</span>
+              <div><p class="eyebrow">03 · Additional generated cases</p><h3 id="additional-cases-title">Additional generation case comparison</h3></div>
+              <span class="case-count">14 cases</span>
             </div>
-            <p class="table-intro">Abbreviated prompts describe the overall event. Each row shows the LTX-2, OmniNFT, and Ours audio-video clips directly.</p>
+            <p class="table-intro">Each row uses the same prompt for three audio-video generations: LTX-2, OmniNFT, and Ours (AVC-Reward).</p>
             <div class="table-wrap">
               <table class="case-table generation-table">
                 <thead>
                   <tr>
-                    <th scope="col">Prompt (abbreviated)</th>
+                    <th scope="col">Prompt</th>
                     <th scope="col">LTX-2</th>
                     <th scope="col">OmniNFT</th>
                     <th scope="col">Ours</th>
