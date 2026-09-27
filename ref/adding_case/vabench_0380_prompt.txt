@@ -1,0 +1,1 @@
+For a first-person video shot in a noisy subway station, apply active noise cancellation to significantly reduce low-frequency noises such as train rumbles and human voices when wearing over-ear headphones.
