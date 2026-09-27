@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="AVC-Reward: event-centric audio-video consistency evaluation and playable case studies." />
+    <meta name="description" content="AVC-Reward evaluates audio-video consistency at the event level." />
     <meta name="theme-color" content="#f7f7f4" />
     <title>AVC-Reward — Event-Centric Audio-Video Consistency</title>
     <link rel="stylesheet" href="assets/css/style.css" />
@@ -22,10 +22,8 @@
           <span class="sr-only">Toggle navigation</span><span></span><span></span><span></span>
         </button>
         <nav id="site-nav" class="site-nav" aria-label="Main navigation">
-          <a href="#overview">Overview</a>
-          <a href="#method">Method</a>
+          <a href="#method">Method overview</a>
           <a href="#cases">Case studies</a>
-          <a href="#paper">Paper</a>
         </nav>
       </div>
     </header>
@@ -33,29 +31,10 @@
     <main id="main-content">
       <section id="top" class="hero">
         <div class="container hero-inner">
-          <p class="eyebrow">ICLR 2027 · Under review</p>
+          <p class="eyebrow">ICLR 2027</p>
           <h1>AVC-Reward</h1>
           <p class="hero-subtitle">Event-Centric Audio-Video Consistency Evaluation</p>
-          <p class="hero-copy">A trainable reward model that evaluates how sounds and visual events fit together—even when a scene contains several events, layered audio, or valid off-screen sounds.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="ref/ICLR2027.pdf">Read the paper <span aria-hidden="true">↗</span></a>
-            <a class="button button-secondary" href="#cases">Explore case studies <span aria-hidden="true">↓</span></a>
-          </div>
-          <div class="hero-rule" aria-hidden="true"><span></span><span></span><span></span></div>
-          <p class="hero-caption">A general-purpose reward signal for complex, jointly generated audio-visual scenes.</p>
-        </div>
-      </section>
-
-      <section id="overview" class="section overview-section">
-        <div class="container overview-grid">
-          <div>
-            <p class="eyebrow">Overview</p>
-            <h2>Evaluate the events, not just the clip.</h2>
-          </div>
-          <div class="prose">
-            <p>Modern audio-video generation can combine multiple visible events, physical sounds, speech, narration, and music. A single clip-level similarity score can hide a local timing error, mix audio layers with different roles, or incorrectly penalize a plausible sound from outside the frame.</p>
-            <p>AVC-Reward evaluates these relationships at the event level. It separates audio and visual events, verifies how they relate, and combines the evidence into a structured consistency judgment. The resulting reward model aligns closely with human judgments and can also guide generation during reinforcement learning.</p>
-          </div>
+          <p class="hero-copy">A reward model for checking whether sounds and visual events belong together, stay in sync, and make sense as one scene.</p>
         </div>
       </section>
 
@@ -63,47 +42,17 @@
         <div class="container">
           <div class="section-heading">
             <p class="eyebrow">Method overview</p>
-            <h2>From event extraction to a useful judgment.</h2>
-            <p>The framework separates events first, checks their cross-modal relationships, then scores consistency from coarse to fine.</p>
+            <h2>Evaluate events and their relationships.</h2>
+            <p>AVC-Reward separates the scene into audio and visual events, verifies how they relate, then combines the evidence at three levels.</p>
           </div>
           <figure class="method-figure">
-            <img src="assets/img/main-fig.webp" alt="AVC-Reward separates audio and video into events, verifies their relationships, and reports narrative, temporal, and attribute consistency with a conclusion." loading="lazy" />
-            <figcaption>AVC-Reward handles multi-event scenes, mixed audio layers, and asymmetric relations such as off-screen sounds. Figure adapted from the paper’s main figure.</figcaption>
+            <img src="assets/img/main-fig.webp" alt="AVC-Reward extracts audio and video events, verifies cross-modal relations, and judges narrative, temporal, and attribute consistency." />
+            <figcaption>Event extraction → relation verification → coarse-to-fine consistency judgment.</figcaption>
           </figure>
           <div class="method-steps">
-            <article><span>01</span><h3>Extract events</h3><p>Analyze audio and video independently, preserving distinct sounds and visible actions.</p></article>
-            <article><span>02</span><h3>Verify relations</h3><p>Check event presence, timing, attributes, and whether unmatched sounds plausibly come from off screen.</p></article>
-            <article><span>03</span><h3>Judge at three levels</h3><p>Assess narrative harmony, event-level synchronization, and fine-grained attribute alignment.</p></article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section paper-evidence-section" aria-labelledby="evidence-title">
-        <div class="container">
-          <div class="section-heading">
-            <p class="eyebrow">Examples reported in the paper</p>
-            <h2 id="evidence-title">A score should explain what went right—or wrong.</h2>
-            <p>Selected scores and short conclusion excerpts below are transcribed from Figures 3 and 3-2. The paper does not expose IDs that map these illustrated examples to the anonymous files in the case folders.</p>
-          </div>
-          <div class="evidence-grid">
-            <article class="evidence-card">
-              <div class="evidence-topline"><span>Timing error</span><a href="ref/figs/fig-3-2.pdf">Figure 3-2 ↗</a></div>
-              <h3>Hammer impacts arrive late</h3>
-              <p class="score-line"><strong>AVC-Reward 0.60</strong><span>Human rating 0.50</span></p>
-              <p class="evidence-copy">Conclusion: “…lack of precise timing between the hammer impacts and the resulting sounds…”</p>
-            </article>
-            <article class="evidence-card">
-              <div class="evidence-topline"><span>Performance mismatch</span><a href="ref/figs/fig-3-2.pdf">Figure 3-2 ↗</a></div>
-              <h3>Concert video with a studio track</h3>
-              <p class="score-line"><strong>AVC-Reward 0.80</strong><span>Human rating 0.70</span></p>
-              <p class="evidence-copy">Conclusion: “…miming to a studio recording…”</p>
-            </article>
-            <article class="evidence-card">
-              <div class="evidence-topline"><span>Strong alignment</span><a href="ref/figs/fig-3-2.pdf">Figure 3-2 ↗</a></div>
-              <h3>Choir gestures and singing agree</h3>
-              <p class="score-line"><strong>AVC-Reward 0.93</strong><span>Human rating 0.93</span></p>
-              <p class="evidence-copy">Conclusion: “…direct recording of the visual performance…”</p>
-            </article>
+            <article><span>01</span><h3>Extract events</h3><p>Analyze audio and video separately while preserving individual events and sound layers.</p></article>
+            <article><span>02</span><h3>Verify relations</h3><p>Check event presence, timing, attributes, and plausible off-screen sources.</p></article>
+            <article><span>03</span><h3>Score consistency</h3><p>Assess macro-semantic alignment, temporal synchronization, and fine-grained correspondence.</p></article>
           </div>
         </div>
       </section>
@@ -111,34 +60,49 @@
       <section id="cases" class="section cases-section">
         <div class="container">
           <div class="section-heading cases-heading">
-            <p class="eyebrow">Playable case studies</p>
-            <h2>Compare the clips side by side.</h2>
-            <p>Each row is one case. Open a comparison to load the original local video files. Prompt summaries for generation cases are abbreviated and describe the overall event.</p>
+            <p class="eyebrow">Case studies</p>
+            <h2>Listen and compare.</h2>
+            <p>Each row is one case. The videos use the updated files in the case folders; case identifiers are omitted from the page.</p>
           </div>
 
-          <section class="case-group" aria-labelledby="paper-cases-title">
+          <section class="case-group" aria-labelledby="reward-cases-title">
             <div class="case-group-heading">
-              <div><p class="eyebrow">01 · Human-annotated cases</p><h3 id="paper-cases-title">Reward-model examples</h3></div>
-              <span class="case-count">6 selected cases</span>
+              <div><p class="eyebrow">01 · Reward-model examples</p><h3 id="reward-cases-title">Scores and conclusions</h3></div>
+              <span class="case-count">6 cases</span>
             </div>
-            <p class="table-intro">Three outputs are provided for each source example: LTX-2, OmniNFT, and the AVC-Reward-trained model. Paper-reported score examples are shown separately above because the paper figures do not identify their corresponding source files.</p>
+            <p class="table-intro">Each case includes its audio-video clip. The three score columns show AVC-Reward’s macro-semantic, temporal, and fine-grained outputs; the final column gives the overall score, human average, and a short conclusion excerpt.</p>
             <div class="table-wrap">
-              <table class="case-table">
-                <thead><tr><th scope="col">Case summary</th><th scope="col">Source videos</th><th scope="col">Comparison</th></tr></thead>
-                <tbody id="human-cases"></tbody>
+              <table class="case-table reward-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Case</th>
+                    <th scope="col">Macro-semantic</th>
+                    <th scope="col">Temporal</th>
+                    <th scope="col">Fine-grained</th>
+                    <th scope="col">Overall / conclusion</th>
+                  </tr>
+                </thead>
+                <tbody id="reward-cases"></tbody>
               </table>
             </div>
           </section>
 
           <section class="case-group" aria-labelledby="generation-cases-title">
             <div class="case-group-heading">
-              <div><p class="eyebrow">02 · Selected generation cases</p><h3 id="generation-cases-title">Baseline and trained-model outputs</h3></div>
-              <span class="case-count">6 selected cases</span>
+              <div><p class="eyebrow">02 · Generated examples</p><h3 id="generation-cases-title">Three model outputs</h3></div>
+              <span class="case-count">7 cases</span>
             </div>
-            <p class="table-intro">The abbreviated prompts summarize the described scene and its central event. LTX-2, OmniNFT, and AVC-Reward outputs are the original playable files from the case folder.</p>
+            <p class="table-intro">Each abbreviated prompt summarizes the scene’s main event. LTX-2, OmniNFT, and Ours clips are displayed directly in separate columns.</p>
             <div class="table-wrap">
-              <table class="case-table">
-                <thead><tr><th scope="col">Abbreviated prompt</th><th scope="col">Models</th><th scope="col">Comparison</th></tr></thead>
+              <table class="case-table generation-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Prompt (abbreviated)</th>
+                    <th scope="col">LTX-2</th>
+                    <th scope="col">OmniNFT</th>
+                    <th scope="col">Ours</th>
+                  </tr>
+                </thead>
                 <tbody id="generation-cases"></tbody>
               </table>
             </div>
@@ -146,41 +110,24 @@
 
           <section class="case-group" aria-labelledby="additional-cases-title">
             <div class="case-group-heading">
-              <div><p class="eyebrow">03 · Additional generated cases</p><h3 id="additional-cases-title">More event combinations</h3></div>
-              <span class="case-count">6 selected cases</span>
+              <div><p class="eyebrow">03 · Additional generated cases</p><h3 id="additional-cases-title">More generated examples</h3></div>
+              <span class="case-count">26 cases</span>
             </div>
-            <p class="table-intro">These added prompts include visible actions, speech, and off-screen events. The trained output is labeled with its source filename, OmniNFT step 876.</p>
+            <p class="table-intro">Abbreviated prompts describe the overall event. Each row shows the LTX-2, OmniNFT, and Ours audio-video clips directly.</p>
             <div class="table-wrap">
-              <table class="case-table">
-                <thead><tr><th scope="col">Abbreviated prompt</th><th scope="col">Models</th><th scope="col">Comparison</th></tr></thead>
+              <table class="case-table generation-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Prompt (abbreviated)</th>
+                    <th scope="col">LTX-2</th>
+                    <th scope="col">OmniNFT</th>
+                    <th scope="col">Ours</th>
+                  </tr>
+                </thead>
                 <tbody id="additional-cases"></tbody>
               </table>
             </div>
           </section>
-        </div>
-      </section>
-
-      <section id="paper" class="section paper-section">
-        <div class="container paper-inner">
-          <div>
-            <p class="eyebrow">Paper</p>
-            <h2>AVC-Reward: Event-Centric Audio-Video Consistency Evaluation</h2>
-            <p>Anonymous authors · Under review at ICLR 2027</p>
-          </div>
-          <div class="paper-actions">
-            <a class="button button-primary" href="ref/ICLR2027.pdf">Download paper <span aria-hidden="true">↗</span></a>
-            <a class="text-link" href="ref/figs/main-fig.pdf">Main figure PDF</a>
-            <a class="text-link" href="ref/figs/fig-3.pdf">Case figure PDF</a>
-            <button class="copy-button" type="button" data-copy-target="bibtex">Copy BibTeX</button>
-          </div>
-          <div class="citation-box">
-            <pre id="bibtex"><code>@inproceedings{avcreward2027,
-  title     = {AVC-Reward: Event-Centric Audio-Video Consistency Evaluation},
-  author    = {Anonymous},
-  booktitle = {International Conference on Learning Representations},
-  year      = {2027}
-}</code></pre>
-          </div>
         </div>
       </section>
     </main>
