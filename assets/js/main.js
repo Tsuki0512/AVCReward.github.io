@@ -39,7 +39,6 @@
     { prompt: 'A person speaks beside a powerful waterfall.', key: 'avphysbench_0095' },
     { prompt: 'Water fills a clear glass pot as the requested pouring sound becomes lower in pitch.', key: 'avphysbench_0271' },
     { prompt: 'An overhead cooking tutorial shows hands slicing a tomato beside a simmering pot while a narrator gives instructions.', key: 'gen_added_P49', oursModel: 'omninft_step876' },
-    { prompt: 'A surreal time bank shows golden liquid flowing through glass tubes.', key: 'vabench_0537' }
   ];
 
   const additionalCases = [
@@ -56,7 +55,8 @@
     { key: 'vabench_0315', prompt: 'A bride repeatedly tries on her veil and smiles nervously at the mirror.' },
     { key: 'vabench_0380', prompt: 'A first-person subway scene follows someone using over-ear headphones to reduce the surrounding rumble.' },
     { key: 'vabench_0454', prompt: 'Water is poured into a glass as the pitch of taps on its side rises with the water level.' },
-    { key: 'vabench_0666', prompt: 'A chef chops and seasons ingredients at the lower edge of the frame while preparing a hot dish.' }
+    { key: 'vabench_0666', prompt: 'A chef chops and seasons ingredients at the lower edge of the frame while preparing a hot dish.' },
+    { key: 'vabench_0537', prompt: 'A surreal time bank shows golden liquid flowing through glass tubes.', folder: 'ref/case/02_gen' }
   ];
 
   const createText = (tag, className, value) => {
@@ -116,7 +116,7 @@
         const cell = document.createElement('td');
         cell.className = 'video-cell';
         const label = index === 2 ? 'Ours' : model === 'ltx2' ? 'LTX-2' : 'OmniNFT';
-        cell.append(createVideo(folder + '/' + item.key + '_' + model + '.mp4', label + ' audio-video clip'));
+        cell.append(createVideo((item.folder || folder) + '/' + item.key + '_' + model + '.mp4', label + ' audio-video clip'));
         row.append(cell);
       });
       tbody.append(row);
