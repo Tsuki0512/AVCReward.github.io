@@ -66,23 +66,187 @@
     return node;
   };
 
-  const createVideo = (src, label) => {
+  const videoElements = [];
+
+  const setOverlayLabel = (shell, text) => {
+    const label = shell.querySelector('.video-overlay-label');
+    if (label) label.textContent = text;
+  };
+
+  const createVideo = (src, label, options = {}) => {
+    const shell = document.createElement('div');
+    shell.className = 'video-shell';
+    shell.dataset.src = src;
+    if (Number.isFinite(options.previewTime)) shell.dataset.previewTime = String(options.previewTime);
+
     const video = document.createElement('video');
-    video.controls = true;
+    video.className = 'case-video';
+    video.controls = false;
     video.preload = 'none';
     video.playsInline = true;
+    video.muted = true;
+    video.controlsList = 'nofullscreen';
+    video.disablePictureInPicture = true;
     video.setAttribute('aria-label', label);
-    const source = document.createElement('source');
-    source.src = src;
-    source.type = 'video/mp4';
-    video.append(source);
-    video.append('Your browser does not support embedded video.');
-    return video;
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+    videoElements.push(video);
+
+    const overlay = document.createElement('button');
+    overlay.type = 'button';
+    overlay.className = 'video-overlay';
+    overlay.setAttribute('aria-label', 'Load preview and play ' + label);
+    overlay.append(createText('span', 'video-play-glyph', '\u25b6'));
+    overlay.append(createText('span', 'video-overlay-label', 'Load preview'));
+
+    const status = createText('p', 'video-error', 'Video unavailable. Activate to retry.');
+    status.setAttribute('role', 'status');
+    shell.append(video, overlay, status);
+
+    let source = null;
+    let seekTimer = null;
+    let previewAttempted = false;
+    let playbackRequested = false;
+
+    const fail = (message) => {
+      shell.classList.remove('is-loading', 'is-playing');
+      shell.classList.add('is-error');
+      status.textContent = message;
+      video.controls = false;
+      setOverlayLabel(shell, 'Play video');
+      overlay.setAttribute('aria-label', 'Try to play ' + label);
+    };
+
+    const markPreviewReady = () => {
+      if (seekTimer) clearTimeout(seekTimer);
+      seekTimer = null;
+      shell.classList.remove('is-loading', 'is-error');
+      shell.classList.add('is-preview-ready');
+      setOverlayLabel(shell, 'Play video');
+      overlay.setAttribute('aria-label', 'Play ' + label);
+      if (!playbackRequested) {
+        video.pause();
+        video.muted = true;
+        video.controls = false;
+      }
+    };
+
+    const attachSource = () => {
+      if (source && shell.dataset.failed !== 'true') return;
+      shell.classList.remove('is-error');
+      shell.dataset.failed = '';
+      shell.dataset.loaded = 'true';
+      shell.classList.add('is-loading');
+      setOverlayLabel(shell, 'Loading preview');
+      if (source) source.remove();
+      source = document.createElement('source');
+      source.src = shell.dataset.src;
+      source.type = 'video/mp4';
+      video.append(source);
+      video.preload = 'metadata';
+      video.muted = true;
+      video.load();
+    };
+
+    const startPlayback = () => {
+      playbackRequested = true;
+      video.muted = false;
+      video.controls = true;
+      const request = video.play();
+      if (request && typeof request.catch === 'function') {
+        request.catch(() => {
+          playbackRequested = false;
+          video.controls = false;
+          video.muted = true;
+          fail('Unable to start playback. Activate to retry.');
+        });
+      }
+    };
+
+    video.addEventListener('loadedmetadata', () => {
+      if (playbackRequested || previewAttempted) return;
+      previewAttempted = true;
+      const duration = video.duration;
+      if (!Number.isFinite(duration) || duration <= 0) {
+        fail('Preview unavailable. Activate to play the video.');
+        return;
+      }
+      const configured = Number(shell.dataset.previewTime);
+      const target = Number.isFinite(configured) && shell.dataset.previewTime
+        ? configured
+        : Math.min(0.5, duration * 0.15);
+      const safeTime = Math.max(0, Math.min(target, Math.max(0, duration - 0.04)));
+      if (safeTime <= 0.01 || Math.abs(video.currentTime - safeTime) < 0.01) {
+        markPreviewReady();
+        return;
+      }
+      try {
+        video.currentTime = safeTime;
+        seekTimer = setTimeout(() => {
+          if (!shell.classList.contains('is-preview-ready') && !playbackRequested) {
+            fail('Preview could not be decoded. Activate to play the video.');
+          }
+        }, 5000);
+      } catch (error) {
+        fail('Preview unavailable. Activate to play the video.');
+      }
+    });
+
+    video.addEventListener('seeked', () => {
+      if (!playbackRequested) markPreviewReady();
+      else shell.classList.add('is-preview-ready');
+    });
+
+    video.addEventListener('playing', () => {
+      shell.classList.remove('is-error', 'is-loading');
+      shell.classList.add('is-playing');
+      videoElements.forEach((other) => {
+        if (other !== video && !other.paused) {
+          other.pause();
+          other.muted = true;
+          other.controls = false;
+          const otherShell = other.closest('.video-shell');
+          if (otherShell) otherShell.classList.remove('is-playing');
+        }
+      });
+    });
+
+    video.addEventListener('pause', () => {
+      if (!video.ended) shell.classList.remove('is-playing');
+      if (shell.classList.contains('is-preview-ready')) {
+        video.controls = false;
+        setOverlayLabel(shell, 'Play video');
+      }
+    });
+
+    video.addEventListener('ended', () => {
+      shell.classList.remove('is-playing');
+      video.controls = false;
+      setOverlayLabel(shell, 'Replay video');
+    });
+
+    video.addEventListener('error', () => {
+      shell.dataset.failed = 'true';
+      fail('Unable to load this video. Activate to retry.');
+    });
+
+    shell.loadPreview = attachSource;
+    overlay.addEventListener('click', () => {
+      attachSource();
+      video.muted = false;
+      shell.classList.add('is-loading');
+      setOverlayLabel(shell, 'Starting video');
+      startPlayback();
+    });
+
+    return shell;
   };
 
   const renderRewardCases = () => {
     const tbody = document.getElementById('reward-cases');
     if (!tbody) return;
+    const dimensions = ['macro', 'temporal', 'fine'];
+    const scoreLabels = ['Macro-semantic alignment', 'Temporal synchronization', 'Fine-grained event correspondence'];
     rewardCases.forEach((item) => {
       const row = document.createElement('tr');
       const caseCell = document.createElement('td');
@@ -90,9 +254,22 @@
       caseCell.append(createText('strong', 'case-scene', item.scene));
       caseCell.append(createVideo('ref/case/01_rewardmodel/videos/' + item.video, item.scene + ' audio-video clip'));
       const scoreCells = item.scores.map((score, index) => {
-        const label = ['Macro-semantic alignment', 'Temporal synchronization', 'Fine-grained event correspondence'][index];
-        const cell = createText('td', 'score-cell', score);
-        cell.setAttribute('aria-label', label + ': ' + score);
+        const numericScore = Math.max(0, Math.min(1, Number.parseFloat(score) || 0));
+        const cell = document.createElement('td');
+        cell.className = 'score-cell';
+        cell.setAttribute('aria-label', scoreLabels[index] + ': ' + score);
+        cell.append(createText('div', 'score-value', score));
+        const meter = document.createElement('div');
+        meter.className = 'score-meter ' + dimensions[index];
+        meter.setAttribute('role', 'progressbar');
+        meter.setAttribute('aria-label', scoreLabels[index]);
+        meter.setAttribute('aria-valuemin', '0');
+        meter.setAttribute('aria-valuemax', '1');
+        meter.setAttribute('aria-valuenow', String(numericScore));
+        const fill = document.createElement('span');
+        fill.style.width = (numericScore * 100) + '%';
+        meter.append(fill);
+        cell.append(meter);
         return cell;
       });
       const conclusionCell = document.createElement('td');
@@ -116,7 +293,7 @@
         const cell = document.createElement('td');
         cell.className = 'video-cell';
         const label = index === 2 ? 'Ours' : model === 'ltx2' ? 'LTX-2' : 'OmniNFT';
-        cell.append(createVideo((item.folder || folder) + '/' + item.key + '_' + model + '.mp4', label + ' audio-video clip'));
+        cell.append(createVideo((item.folder || folder) + '/' + item.key + '_' + model + '.mp4', item.prompt + ' - ' + label + ' audio-video clip', item));
         row.append(cell);
       });
       tbody.append(row);
@@ -127,19 +304,16 @@
   renderVideoCases('generation-cases', generationCases, 'ref/case/02_gen');
   renderVideoCases('additional-cases', additionalCases, 'ref/adding_case');
 
-  const navToggle = document.querySelector('.nav-toggle');
-  const nav = document.querySelector('#site-nav');
-  if (navToggle && nav) {
-    navToggle.addEventListener('click', () => {
-      const isOpen = nav.classList.toggle('is-open');
-      navToggle.setAttribute('aria-expanded', String(isOpen));
-    });
-    nav.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
-        nav.classList.remove('is-open');
-        navToggle.setAttribute('aria-expanded', 'false');
+  if ('IntersectionObserver' in window) {
+    const videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const shell = entry.target;
+        if (!shell.dataset.loaded && typeof shell.loadPreview === 'function') shell.loadPreview();
+        videoObserver.unobserve(shell);
       });
-    });
+    }, { rootMargin: '300px 0px' });
+    document.querySelectorAll('.video-shell').forEach((shell) => videoObserver.observe(shell));
   }
 
   const year = document.querySelector('#year');

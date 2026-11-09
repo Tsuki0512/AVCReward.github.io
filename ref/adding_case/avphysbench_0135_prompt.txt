@@ -1,1 +1,0 @@
-A single person standing in frame raises their hands to clap; the full clap sound and its echo are heard clearly before the hands visually meet, and when the hands finally touch there is no sound. This intentionally violates audio–visual causality, with sound arriving before motion.
