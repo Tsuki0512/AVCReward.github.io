@@ -6,7 +6,7 @@
     <meta name="description" content="AVC-Reward: event-centric audio-video consistency evaluation." />
     <meta name="theme-color" content="#FAFBF9" />
     <title>AVC-Reward: Event-Centric Audio-Video Consistency Evaluation</title>
-    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/style.css?v=png-images-2" />
     <script defer src="assets/js/main.js"></script>
   </head>
   <body>
@@ -38,11 +38,9 @@
             <h2>Why event-centric evaluation?</h2>
             <p>Modern joint audio-video generation introduces multi-event composition, multi-layer audio mixtures, and asymmetric cross-modal relations, challenging existing clip-level and predefined-relation metrics. We propose an event-centric framework that disentangles individual events, distinguishes audio source roles, and cross-validates event-dependent relations across modalities, yielding a coarse-to-fine, three-level consistency metric.</p>
           </div>
-          <figure class="pdf-figure figure-one">
-            <div class="pdf-frame figure-1">
-              <object data="assets/figures/figure1_intro.pdf#toolbar=0&amp;navpanes=0&amp;scrollbar=0&amp;view=FitH" type="application/pdf" aria-label="Figure 1: event-centric audio-video consistency evaluation">
-                <p>PDF preview is unavailable in this browser.</p>
-              </object>
+          <figure class="image-figure figure-one">
+            <div class="image-frame figure-1">
+              <img src="assets/figures/figure1_intro.png" width="2100" height="959" alt="Figure 1: event-centric audio-video consistency evaluation" loading="lazy" decoding="async" />
             </div>
             <figcaption>Event-centric audio-video consistency evaluation (Figure 1).</figcaption>
           </figure>
@@ -62,11 +60,9 @@
             <h2>From event-level reasoning to a trainable reward</h2>
             <p>AVC-Reward implements the three-level metric through five-stage structured reasoning. Audio-only and video-only analyses extract global descriptions and individual events; bidirectional verification establishes their cross-modal relations and supporting evidence. The final stage computes <i>S</i><sub>mac</sub> from global descriptions, and <i>S</i><sub>temp</sub> and <i>S</i><sub>attr</sub> from verified event relations. The three scores lie in [0, 1], with their arithmetic mean <i>S</i><sub>AVC</sub> serving as the overall reward.</p>
           </div>
-          <figure class="pdf-figure figure-two">
-            <div class="pdf-frame figure-2">
-              <object data="assets/figures/figure2_pipeline.pdf#toolbar=0&amp;navpanes=0&amp;scrollbar=0&amp;view=FitH" type="application/pdf" aria-label="Figure 2: data, supervision, reward model training, and generation optimization">
-                <p>PDF preview is unavailable in this browser.</p>
-              </object>
+          <figure class="image-figure figure-two">
+            <div class="image-frame figure-2">
+              <img src="assets/figures/figure2_pipeline.png" width="2788" height="803" alt="Figure 2: data, supervision, reward model training, and generation optimization" loading="lazy" decoding="async" />
             </div>
             <figcaption>Data construction, reward-model training, and generation-side optimization (Figure 2).</figcaption>
           </figure>
@@ -82,19 +78,15 @@
             <section class="result-subsection alignment-results" aria-labelledby="human-alignment-title">
               <div class="section-heading result-heading"><h3 id="human-alignment-title">Alignment with Human Judgment</h3><p>AVC-Benchmark: 706 samples. Primary metrics: &Delta;-Pairwise (&Delta; &gt; 0.2) and PLCC.</p></div>
               <div class="result-grid">
-                <figure class="pdf-figure result-figure table2-figure">
-                  <div class="pdf-frame table2-frame">
-                    <object data="assets/figures/table2_human_alignment.pdf#toolbar=0&amp;navpanes=0&amp;scrollbar=0&amp;view=FitH" type="application/pdf" aria-label="Table 2: complete AVC-Benchmark comparison with all automatic baselines and Human Upper Bound">
-                      <p>PDF preview is unavailable in this browser.</p>
-                    </object>
+                <figure class="image-figure result-figure table2-figure">
+                  <div class="image-frame table2-frame">
+                    <img src="assets/figures/table2_human_alignment.png" width="1221" height="799" alt="Table 2: complete AVC-Benchmark comparison with all automatic baselines and Human Upper Bound" loading="lazy" decoding="async" />
                   </div>
                   <figcaption>Table 2. Agreement with human judgment on AVC-Benchmark.</figcaption>
                 </figure>
-                <figure class="pdf-figure result-figure figure3-result">
-                  <div class="pdf-frame figure-3">
-                    <object data="assets/figures/figure3_pairwise.pdf#toolbar=0&amp;navpanes=0&amp;scrollbar=0&amp;view=FitH" type="application/pdf" aria-label="Figure 3: pairwise accuracy across thresholds">
-                      <p>PDF preview is unavailable in this browser.</p>
-                    </object>
+                <figure class="image-figure result-figure figure3-result">
+                  <div class="image-frame figure-3">
+                    <img src="assets/figures/figure3_pairwise.png" width="3244" height="1412" alt="Figure 3: pairwise accuracy across thresholds" loading="lazy" decoding="async" />
                   </div>
                   <figcaption>Pairwise accuracy across thresholds (Figure 3).</figcaption>
                 </figure>
@@ -104,11 +96,9 @@
 
             <section class="result-subsection generation-results" aria-labelledby="generation-optimization-title">
               <div class="section-heading result-heading"><h3 id="generation-optimization-title">Generation-Side Optimization</h3></div>
-              <figure class="pdf-figure table3-figure">
-                <div class="pdf-frame table3-frame">
-                  <object data="assets/figures/table3_generation.pdf#toolbar=0&amp;navpanes=0&amp;scrollbar=0&amp;view=FitH" type="application/pdf" aria-label="Table 3: generation-side optimization results, including audio-video consistency and text alignment">
-                    <p>PDF preview is unavailable in this browser.</p>
-                  </object>
+              <figure class="image-figure table3-figure">
+                <div class="image-frame table3-frame">
+                  <img src="assets/figures/table3_generation.png" width="1324" height="927" alt="Table 3: generation-side optimization results, including audio-video consistency and text alignment" loading="lazy" decoding="async" />
                 </div>
                 <figcaption>Table 3. Generation-side optimization results: (a) audio-video consistency and (b) text alignment and single-modality quality.</figcaption>
               </figure>

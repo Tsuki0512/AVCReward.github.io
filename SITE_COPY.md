@@ -203,7 +203,7 @@ Page not found
 
 The page you requested could not be found.
 
-Back to AVC-Reward
+AVC-Reward
 
 ## Interface labels and fallback text
 
@@ -213,7 +213,7 @@ Load preview ? Loading preview ? Starting video ? Play video ? Replay video
 
 Video unavailable. Activate to retry.
 
-PDF preview is unavailable in this browser.
+Figure image unavailable.
 
 Preview unavailable. Activate to play the video.
 

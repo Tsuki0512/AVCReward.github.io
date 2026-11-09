@@ -37,7 +37,7 @@ button { font: inherit; }
 
 .hero-section { padding: 40px 0 0; background: linear-gradient(115deg, #FFF0E5 0%, #FAFBF9 48%, #F0F2FB 100%); }
 .hero-inner { text-align: center; }
-.hero h1 { max-width: 1060px; margin: 0 auto 13px; color: var(--ink); font-size: clamp(35px, 4.5vw, 52px); font-weight: 690; line-height: 1.12; letter-spacing: -.055em; }
+.hero-section h1 { max-width: 1060px; margin: 0 auto 13px; color: var(--ink); font-size: clamp(35px, 4.5vw, 52px); font-weight: 690; line-height: 1.12; letter-spacing: -.055em; }
 .hero-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; max-width: 950px; margin: 17px auto 0; }
 .resource-button { display: inline-flex; min-height: 41px; align-items: center; justify-content: center; gap: 6px; padding: 0 15px; color: var(--ink); border: 1px solid var(--stroke); border-radius: 999px; background: rgba(255,255,255,.78); font-size: 13px; font-weight: 620; text-decoration: none; transition: background .14s ease, border-color .14s ease, transform .14s ease; }
 .resource-button:hover { transform: translateY(-1px); border-color: var(--apricot-strong); background: var(--surface); }
@@ -56,17 +56,14 @@ h3 { color: var(--ink); font-size: 22px; font-weight: 630; line-height: 1.28; le
 .section-heading p:last-child { margin-bottom: 0; color: var(--text); font-size: 15px; }
 .overview-section { background: var(--surface); }
 .overview-section .section-heading { max-width: none; }
-.pdf-figure { min-width: 0; margin: 0; overflow: hidden; border: 0; border-radius: 0; background: transparent; }
-.pdf-frame { position: relative; width: 100%; overflow: hidden; --pdf-edge: var(--surface); }
-.pdf-frame::after { position: absolute; z-index: 5; inset: 0; content: ""; pointer-events: none; box-shadow: inset 4px 0 0 var(--pdf-edge), inset -4px 0 0 var(--pdf-edge); }
-.results-section .pdf-frame::after { background: linear-gradient(to bottom, transparent calc(100% - 14px), var(--pdf-edge) calc(100% - 14px)); }
-.pdf-frame object { display: block; width: 100%; height: 100%; border: 0; transform: scale(1.04); }
-.figure-1 { --pdf-edge: var(--apricot); aspect-ratio: 631 / 288; background: var(--apricot); }
+.image-figure { width: min(100%, 960px); min-width: 0; margin: 0 auto; overflow: hidden; border: 0; border-radius: 0; background: transparent; }
+.image-frame { position: relative; width: 100%; max-width: 100%; margin: 0 auto; overflow: hidden; }
+.image-frame img { display: block; width: 100%; max-width: 100%; height: auto; border: 0; }
+.figure-1 { aspect-ratio: 631 / 288; background: var(--apricot); }
 .figure-2 { aspect-ratio: 836.2 / 240.9; background: var(--surface); }
 .figure-3 { aspect-ratio: 972.996 / 423.43; background: var(--surface); }
 .table3-frame { aspect-ratio: 397 / 278; background: var(--surface); }
-.pdf-figure figcaption { display: block; padding: 8px 0 0; color: var(--muted); background: transparent; font-size: 12px; line-height: 1.5; }
-.pdf-figure object p { margin: 18px; font-size: 13px; }
+.image-figure figcaption { display: block; padding: 8px 0 0; color: var(--muted); background: transparent; font-size: 12px; line-height: 1.5; }
 .metric-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px; margin-top: 20px; }
 .metric-card { min-height: 146px; padding: 16px 18px; border: 1px solid var(--stroke); border-radius: 12px; }
 .metric-card h3 { margin: 2px 0 5px; font-size: 17px; }
@@ -190,7 +187,7 @@ h3 { color: var(--ink); font-size: 22px; font-weight: 630; line-height: 1.28; le
   .header-inner { min-height: 60px; }
         .section { padding: 58px 0; }
   .hero-section { padding-top: 28px; }
-  .hero h1 { max-width: 680px; font-size: clamp(34px, 8vw, 38px); }
+  .hero-section h1 { max-width: 680px; font-size: clamp(34px, 8vw, 38px); }
       .hero-links { gap: 7px; margin-top: 15px; }
   .resource-button { min-height: 39px; padding: 0 11px; font-size: 12px; }
   .abstract-wrap { padding-top: 18px; padding-bottom: 25px; }
@@ -202,8 +199,7 @@ h3 { color: var(--ink); font-size: 22px; font-weight: 630; line-height: 1.28; le
   .table3-frame { aspect-ratio: 397 / 278; min-height: 0; }
   .result-grid { grid-template-columns: 1fr; gap: 14px; }
   .figure3-result { width: min(100%, 700px); margin: 0 auto; }
-  .pdf-frame object { width: 100%; height: 100%; }
-  .pdf-figure figcaption { align-items: flex-start; font-size: 11px; }
+  .image-figure figcaption { align-items: flex-start; font-size: 11px; }
   .metric-grid { grid-template-columns: 1fr; gap: 9px; }
   .metric-card { min-height: 0; padding: 13px 15px; }
   .metric-card h3 { font-size: 17px; }
@@ -218,8 +214,8 @@ h3 { color: var(--ink); font-size: 22px; font-weight: 630; line-height: 1.28; le
 }
 @media (max-width: 380px) {
   .container { width: calc(100% - 24px); }
-  .hero h1 { font-size: 34px; }
+  .hero-section h1 { font-size: 34px; }
   .resource-button { padding: 0 9px; font-size: 11px; }
-  .pdf-figure figcaption { flex-direction: column; gap: 3px; }
+  .image-figure figcaption { flex-direction: column; gap: 3px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; } }
